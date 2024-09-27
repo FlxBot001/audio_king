@@ -1,14 +1,17 @@
+# app/__init__.py
+
 from flask import Flask
-from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-import os
+from config import Config  # Ensure this points to the right location
 
+# Initialize Flask application
 app = Flask(__name__)
-CORS(app, supports_credentials=True)  # Enable CORS with support for credentials
-app.config.from_object('config.Config')
 
+# Load configuration from the Config class
+app.config.from_object(Config)
+
+# Initialize the SQLAlchemy database instance
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
 
-from app import routes  # Import routes after initializing the app
+# Import routes and models after the app is created
+from app import routes, models
